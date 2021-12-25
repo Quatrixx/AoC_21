@@ -62,7 +62,7 @@ for row in grid:
         if p >= 2:
             overlaps += 1
 print(f"part1: straight_intersects= {overlaps}")
-plot_vents_to_file()
+#plot_vents_to_file()
 
 for vent in diagonal_vents:
     draw_vent(vent[0], vent[1])
@@ -73,3 +73,4 @@ for row in grid:
         if p >= 2:
             overlaps += 1
 print(f"part2: all_intersects= {overlaps}")
+#plot_vents_to_file()
