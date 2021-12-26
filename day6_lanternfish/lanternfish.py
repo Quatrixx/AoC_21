@@ -17,8 +17,5 @@ for day in range(1, sim_end+1):
             next_day_timers[timer_value-1] = amount
     next_day_timers[6] += breeders
     fish_timers = next_day_timers
-    sum = 0
-    for fish_count in fish_timers:
-        sum += fish_count
     if (day == 80) | (day == sim_end):
-        print(f'day {day:3}/{sim_end}: {sum}')
+        print(f'day {day:3}/{sim_end}: {sum(fish_timers)}')

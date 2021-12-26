@@ -26,12 +26,6 @@ class Board:
                     return True
         return False
 
-    def sum_of_unmarked_nums(self):
-        sum = 0
-        for num in self.unmarked_numbers:
-            sum += num
-        return sum
-
     def init_tracking(self):
         for row in self.numbers:
             self.matches_in_row.append(0)
@@ -61,20 +55,17 @@ with open('day4.in') as input:
         nextline = input.readline()
 
 bingoes = 0
-sum = 0
 for c in called_numbers:
     for b in boards:
         if b.bingo == False:
             if b.check_bingo(c):
                 bingoes += 1
                 if bingoes == 1:
-                    sum = b.sum_of_unmarked_nums()
-                    print(f"first bingo: sum= {sum} call= {c}\n"
-                        f"final_score= {sum * c}")
+                    print(f"first bingo: sum= {sum(b.unmarked_numbers)} call= {c}\n"
+                        f"final_score= {sum(b.unmarked_numbers) * c}")
                 if bingoes == len(boards):
                     break
     if bingoes == len(boards):
-        sum = b.sum_of_unmarked_nums()
-        print(f"last bingo: sum= {sum} call= {c}\n"
-            f"final_score= {sum * c}")
+        print(f"last bingo: sum= {sum(b.unmarked_numbers)} call= {c}\n"
+            f"final_score= {sum(b.unmarked_numbers) * c}")
         break
