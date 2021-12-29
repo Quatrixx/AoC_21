@@ -1,6 +1,3 @@
-with open('day11.in') as input:
-    energy_grid = [[int(c) for c in l.strip()] for l in input.readlines()]
-
 def get_neighbor_coords(grid: list, c: tuple):
     neighbor_list = []
     x, y = c[0], c[1]
@@ -52,6 +49,9 @@ def simulate_step(energy_grid):
             if step_flashmap[y][x] == 1:
                 energy_grid[y][x] = 0
     return step_flashes
+
+with open('day11.in') as input:
+    energy_grid = [[int(c) for c in l.strip()] for l in input.readlines()]
 
 total_flashes = 0
 for step in range(1, 300):
