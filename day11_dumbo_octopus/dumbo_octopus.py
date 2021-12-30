@@ -1,3 +1,6 @@
+import time
+import pygame
+
 def get_neighbor_coords(grid: list, c: tuple):
     neighbor_list = []
     x, y = c[0], c[1]
@@ -50,14 +53,36 @@ def simulate_step(energy_grid):
                 energy_grid[y][x] = 0
     return step_flashes
 
+def draw_dumbos():
+    screen.fill((255, 255, 255))
+    for y in range(len(energy_grid)):
+        for x in range(len(energy_grid[y])):
+            energy = energy_grid[y][x]
+            dumbo_body = pygame.Rect(0+(dumbo_size*x), 0+(dumbo_size*y), dumbo_size, dumbo_size)
+            dumbo_color = (0+(energy*28), 0, 252-(energy*28))
+            pygame.draw.rect(screen, dumbo_color, dumbo_body)
+    pygame.display.flip()
+
 with open('day11.in') as input:
     energy_grid = [[int(c) for c in l.strip()] for l in input.readlines()]
 
+pygame.init()
+dumbo_size = 50
+screen = pygame.display.set_mode([dumbo_size*len(energy_grid[0]), dumbo_size*len(energy_grid)])
 total_flashes = 0
-for step in range(1, 300):
+sync = False
+for step in range(1, 600):
+    draw_dumbos()
     total_flashes += simulate_step(energy_grid)
     if step == 100:
         print(f"part1: total_flashes_after_100_steps= {total_flashes}")
-    if energy_grid == [[0 for c in row] for row in energy_grid]:
+    if (sync == False) & (energy_grid == [[0 for c in row] for row in energy_grid]):
         print(f"part2: synchronisation_after= {step} steps")
+        sync = True
+    stop = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            stop = True
+    if stop:
         break
+    time.sleep(0.05)
