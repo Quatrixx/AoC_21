@@ -53,8 +53,8 @@ def simulate_step(energy_grid):
                 energy_grid[y][x] = 0
     return step_flashes
 
-def draw_dumbos():
-    screen.fill((255, 255, 255))
+def draw_dumbos_as_squares():
+    screen.fill((10, 10, 10))
     for y in range(len(energy_grid)):
         for x in range(len(energy_grid[y])):
             energy = energy_grid[y][x]
@@ -63,8 +63,22 @@ def draw_dumbos():
             pygame.draw.rect(screen, dumbo_color, dumbo_body)
     pygame.display.flip()
 
+def draw_dumbos_as_circles():
+    screen.fill((10, 10, 10))
+    for y in range(len(energy_grid)):
+        for x in range(len(energy_grid[y])):
+            energy = energy_grid[y][x]
+            #dumbo_body = pygame.Rect(0+(dumbo_size*x), 0+(dumbo_size*y), dumbo_size, dumbo_size)
+            dumbo_body = 20
+            dumbo_pos = (25+(dumbo_size*x), 25+(dumbo_size*y))
+            dumbo_color = (0+(energy*28), 0, 252-(energy*28))
+            pygame.draw.circle(screen, dumbo_color, dumbo_pos, dumbo_body)
+    pygame.display.flip()
+
 with open('day11.in') as input:
     energy_grid = [[int(c) for c in l.strip()] for l in input.readlines()]
+
+square_dumbos = False
 
 pygame.init()
 dumbo_size = 50
@@ -72,7 +86,10 @@ screen = pygame.display.set_mode([dumbo_size*len(energy_grid[0]), dumbo_size*len
 total_flashes = 0
 sync = False
 for step in range(1, 600):
-    draw_dumbos()
+    if square_dumbos:
+        draw_dumbos_as_squares()
+    else:
+        draw_dumbos_as_circles()
     total_flashes += simulate_step(energy_grid)
     if step == 100:
         print(f"part1: total_flashes_after_100_steps= {total_flashes}")
